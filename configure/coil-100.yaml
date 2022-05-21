@@ -1,0 +1,11 @@
+in_channels: 3
+kernel_size1: 7
+kernel_size2: 7
+rff_num_filter1: 50
+rff_num_filter2: 50
+pca_num_filter1: 8
+pca_num_filter2: 8
+hist_blk_size: 7
+hist_blk_over: 0.5
+sigma1: 1.0
+sigma2: 1.0
