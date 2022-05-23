@@ -11,7 +11,7 @@ from utils import HistHash
 
 
 class RNPCANet(nn.Module):
-    def __init__(self, in_channels, kernel_size1, kernel_size2, rff_num_filter1, 
+    def __init__(self, device, in_channels, kernel_size1, kernel_size2, rff_num_filter1, 
                  rff_num_filter2, pca_num_filter1, pca_num_filter2, hist_blk_size,
                  hist_blk_over, sigma1, sigma2):
         super(RNPCANet, self).__init__()
@@ -24,7 +24,7 @@ class RNPCANet(nn.Module):
         self.pca_num_filter2 = pca_num_filter2
 
         self.hist_hash = HistHash(
-            pca_num_filter2, hist_blk_size, hist_blk_over)
+            device, pca_num_filter2, hist_blk_size, hist_blk_over)
 
         self.mean_conv1 = nn.Conv2d(
             in_channels=in_channels,

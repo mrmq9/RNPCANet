@@ -24,8 +24,8 @@ def main(args):
 
     with open(os.path.join(args.config_dir, F'{args.dataset}.yaml'), 'r') as f:
         hyper_params = yaml.safe_load(f)
-
-    runner = RnRunner(**hyper_params)
+    
+    runner = RnRunner(device=args.device, **hyper_params)
     runner.train_network(train_loader)
     runner.train_svm(train_loader)
 
@@ -40,6 +40,8 @@ if __name__ == '__main__':
                          help='path of the configurations')
     parser.add_argument('--dataset', required=True, type=str,
                          choices=['mnist', 'coil-20', 'coil-100'], help='name of the dataset')
+    parser.add_argument('--device', default='cuda', type=str,
+                         choices=['cuda', 'cpu'], help='device type')
     parser.add_argument('--batch_train', default=1, type=int,
                          help='batch size for training')
     parser.add_argument('--batch_test', default=1, type=int,

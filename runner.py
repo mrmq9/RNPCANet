@@ -12,11 +12,10 @@ from scipy.sparse import vstack
 from sklearn.svm import LinearSVC
 from tqdm import tqdm
 
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 class RnRunner(object):
-    def __init__(self, **kwargs):
-        self.model = RNPCANet(**kwargs)
+    def __init__(self, device, **kwargs):
+        self.model = RNPCANet(device, **kwargs)
         self.clf = None
         self.sigma1 = kwargs['sigma1']
         self.sigma2 = kwargs['sigma2']
@@ -26,6 +25,7 @@ class RnRunner(object):
         self.rff_num_filter2 = kwargs['rff_num_filter2']
         self.pca_num_filter1 = kwargs['pca_num_filter1']
         self.pca_num_filter2 = kwargs['pca_num_filter2']
+        self.device=device
 
     def train_network(self, data_loader):
         with torch.no_grad():
@@ -39,16 +39,16 @@ class RnRunner(object):
                 self.sigma2, self.kernel_size2, self.rff_num_filter2,
                 self.model.rff2.weight.shape)
 
-            self.model.to(DEVICE)
+            self.model.to(self.device)
 
             for level in range(2):
                 if level==0:
-                    Rx = torch.zeros((self.rff_num_filter1, self.rff_num_filter1)).to(DEVICE)
+                    Rx = torch.zeros((self.rff_num_filter1, self.rff_num_filter1)).to(self.device)
                 else:
-                    Rx = torch.zeros((self.rff_num_filter2, self.rff_num_filter2)).to(DEVICE)
+                    Rx = torch.zeros((self.rff_num_filter2, self.rff_num_filter2)).to(self.device)
                 num_patch = 0
                 for step, batch in enumerate(tqdm(data_loader, desc=F'Training level {level+1} of RNPCANet')):
-                    data = batch[0].to(DEVICE)
+                    data = batch[0].to(self.device)
                     if data.dim() == 3: # in case of gray scale data, add one dimension to data
                         data = data.unsqueeze(1)
                     if level == 0:
@@ -90,7 +90,7 @@ class RnRunner(object):
         with torch.no_grad():
             data_all, labels_all = [], [] 
             for step, batch in enumerate(tqdm(data_loader, desc='Extracting features of training data')):
-                data = batch[0].to(DEVICE)
+                data = batch[0].to(self.device)
                 labels = batch[1]
 
                 if data.dim() == 3:
@@ -115,7 +115,7 @@ class RnRunner(object):
             data_all, labels_all = [], []
             acc, num_data = 0.0, 0
             for step, batch in enumerate(data_loader, 1):
-                data = batch[0].to(DEVICE)
+                data = batch[0].to(self.device)
                 labels = batch[1]
 
                 if data.dim() == 3: # in case of gray scale data, add one dimension to data
