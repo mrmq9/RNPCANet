@@ -40,11 +40,11 @@ if __name__ == '__main__':
                          help='path of the configurations')
     parser.add_argument('--dataset', required=True, type=str,
                          choices=['mnist', 'coil-20', 'coil-100'], help='name of the dataset')
-    parser.add_argument('--batch_train', default=5, type=int,
+    parser.add_argument('--batch_train', default=1, type=int,
                          help='batch size for training')
-    parser.add_argument('--batch_test', default=5, type=int,
+    parser.add_argument('--batch_test', default=1, type=int,
                          help='batch size for evaluating')
-    parser.add_argument('--eval_step', default=200, type=int,
+    parser.add_argument('--eval_step', default=1000, type=int,
                          help='step for evaluation')
 
     args = parser.parse_args()
