@@ -29,5 +29,5 @@ python main.py --dataset <dataset>
 ```
 The results on coil-100 should be better than what is reported in the paper due to a different patch mean removal.
 
-## Reference
+## References
 [1] Qaraei et al., [Randomized Non-linear PCA Networks](https://www.sciencedirect.com/science/article/pii/S0020025520307635), Information Sciences, 2021.
