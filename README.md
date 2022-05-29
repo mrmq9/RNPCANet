@@ -1,4 +1,4 @@
-The official python implementation of RNPCANets in the paper [Randomized Non-linear PCA Networks](https://www.sciencedirect.com/science/article/pii/S0020025520307635)
+The python implementation of RNPCANets in our paper [Randomized Non-linear PCA Networks](https://www.sciencedirect.com/science/article/pii/S0020025520307635)
 
 ## Requirements
 
